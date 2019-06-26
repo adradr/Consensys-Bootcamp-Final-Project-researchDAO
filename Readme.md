@@ -66,23 +66,29 @@ Creating a mapping for proposers' Ethereum addresses and corresponding proposals
 mapping ( address => bytes[] ) proposalsOfProposers
 ```
 
-#### Documentation storage
+### Document storage
 
 Tutorial to implement for IPFS : https://medium.com/@angellopozo/uploading-an-image-to-ipfs-e1f65f039da4
 
 Swarm documentation
 https://swarm-guide.readthedocs.io/en/latest/introduction.html
 
-#### Governance method
+### Governance method
 
 Generally DAOs are governed by a voting mechanims that is a timeframe which allows members of the DAO to cast their votes on a given issue or proposal. Timeframes can vary based on the governance implementation. The evaluation of the votes can also happen in different methods like quorum and majority. 
 
-The **DAOstack** framework invented a method called **Holographic consensus**, which basically allows proposals to be submitted and open for perpetuity. The submitted proposals can be voted yes with super majority and quorum. This initial pool can host huge numbers of proposals, which can be difficult for voters to browse for valuable proposals. Holographic consensus can mitigate this issue by introducing **staking** on these proposals by anyone with `GEN tokens`. By staking a proposal there is an incentive introduced for the stakers to boost the given propoposal. 
+The **[DAOstack](https://daostack.io)** framework invented a method called **Holographic consensus**, which basically allows proposals to be submitted and open for perpetuity. The submitted proposals can be voted yes with super majority and quorum. This initial pool can host huge numbers of proposals, which can be difficult for voters to browse for valuable proposals. Holographic consensus can mitigate this issue by introducing **staking** on these proposals by anyone with `GEN tokens`. By staking a proposal there is an incentive introduced for the stakers to boost the given propoposal. 
 
-Boosted proposals are transferred into a different pool, where there is a limited number of proposals, let's say 10. The introduction of a proposal to the boosted stack is based on a ranking order. This rank is calculated by the reputation of the voters already casted votes on the given proposal. Proposals are open for a finite time in the boosted stack and upon finalization a new proposal can enter to the boosted stack. Boosted stack represents only a relative majority of voters but attention is much higer on the promoted proposal list, as the queue size is limited to 10. Stakers of the finalized proposal are paid upon successful staking. Rewards are paid from the loss of unsuccessful stakers, which means a zero-sum game.
+**Boosted proposals** are transferred into a different pool, where there is a limited number of proposals, let's say 10. The introduction of a proposal to the boosted stack is based on a ranking order. This rank is calculated by the reputation of the voters already casted votes on the given proposal. Proposals are open for a finite time in the boosted stack and upon finalization a new proposal can enter to the boosted stack. Boosted stack represents only a relative majority of voters but attention is much higer on the promoted proposal list, as the queue size is limited to 10. Stakers of the finalized proposal are paid upon successful staking. Rewards are paid from the loss of unsuccessful stakers, which means a zero-sum game.
 
-##### Reputation as voting power
+### Reputation as voting power
 
 > To account for the need for resilience, a.k.a. incorruptibility, **DAOstack’s governance** templates separate `token ownership` and `voting power` into two different currencies. DAOstack generally refers to the first — the **fungible, transferable** token that is a form of monetary wealth — as simply token, or GEN if we are talking about that specific token. The second — voting power — it refers to as reputation. Reputation **cannot be directly transferred** from peer to peer, but rather is **distributed by the passing of proposals** to assign reputation, **or by the adoption of protocols that later result in reputation being transferred automatically**. For example, there might be a protocol through which reputation is distributed for positively reviewed work.
 **Source:** [Medium/@daostack - An Explanation of DAOstack in Fairly Simple Terms](https://medium.com/daostack/an-explanation-of-daostack-in-fairly-simple-terms-d0e034739c5a)
 
+The researchDAO therefore includes two different values stored for every member's eth address. When somebody purchases **rDAO token** his balance is incremented in the corresponding `rDAO_tokenBalances` mapping. It is a deposit made from ETH and being locked in, until you quit the DAO.
+
+```
+mapping (address => uint) rDAO_tokenBalances;
+uint rDAO_totalSupply;
+```
