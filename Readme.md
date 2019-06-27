@@ -101,6 +101,11 @@ uint rDAO_totalShares;
 ```
 
 
-Ideas:
+
+## Dependencies
+## Install instructions
+## How to run
+
+## Ideas:
 * member proposing should have a deposit requirement to prevent spamming, but this deposit is returned in either successfull or failed member proposals
 * ENS implementation for the contract
