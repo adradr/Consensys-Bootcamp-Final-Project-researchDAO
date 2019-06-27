@@ -103,4 +103,4 @@ uint rDAO_totalShares;
 
 Ideas:
 * member proposing should have a deposit requirement to prevent spamming, but this deposit is returned in either successfull or failed member proposals
-* 
+* ENS implementation for the contract
