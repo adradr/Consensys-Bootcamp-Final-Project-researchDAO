@@ -86,9 +86,21 @@ The **[DAOstack](https://daostack.io)** framework invented a method called **Hol
 > To account for the need for resilience, a.k.a. incorruptibility, **DAOstack’s governance** templates separate `token ownership` and `voting power` into two different currencies. DAOstack generally refers to the first — the **fungible, transferable** token that is a form of monetary wealth — as simply token, or GEN if we are talking about that specific token. The second — voting power — it refers to as reputation. Reputation **cannot be directly transferred** from peer to peer, but rather is **distributed by the passing of proposals** to assign reputation, **or by the adoption of protocols that later result in reputation being transferred automatically**. For example, there might be a protocol through which reputation is distributed for positively reviewed work.
 **Source:** [Medium/@daostack - An Explanation of DAOstack in Fairly Simple Terms](https://medium.com/daostack/an-explanation-of-daostack-in-fairly-simple-terms-d0e034739c5a)
 
-The researchDAO therefore includes two different values stored for every member's eth address. When somebody purchases **rDAO token** his balance is incremented in the corresponding `rDAO_tokenBalances` mapping. It is a deposit made from ETH and being locked in, until you quit the DAO.
+The researchDAO therefore includes two different values stored for every member's eth address. There is a differentiation between **ownership of funds** and **voting power**. When somebody purchases **rDAO token** his balance is incremented in the corresponding `rDAO_tokenBalances` mapping. It is a deposit made from ETH and being locked in, until you quit the DAO.
 
 ```
 mapping (address => uint) rDAO_tokenBalances;
 uint rDAO_totalSupply;
 ```
+
+**Voting power or reputation** is measured in another form of token, called `voting shares`. This is also a token that can be minted by the members of the DAO. This means that the power distribution happens in a collective manner, where people have the ability to `raqequit` anytime they like, to prevent undesired outcomes. For an example image a situation where a member or a group of members owning >50% of voting power votes a proposal to allocate themselves ridiculously more shares and therefore diluting the other members in the guild. To prevent such circumstance `ragequit` is introduced based on `MolochDAO`. After each proposal ended, a `grace period` starts in which members who voted NO can still quit the guild and withdraw their funds before the proposal gets executed.
+
+```
+mapping (address => uint) rDAO_votingShares;
+uint rDAO_totalShares;
+```
+
+
+Ideas:
+* member proposing should have a deposit requirement to prevent spamming, but this deposit is returned in either successfull or failed member proposals
+* 
