@@ -96,8 +96,7 @@ modifier memberOnly {
 
   }
 
-// Function
-
+// Functions
 
 
 // Getter functions

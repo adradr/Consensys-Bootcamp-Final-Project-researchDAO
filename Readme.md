@@ -1,4 +1,4 @@
-# Ethereum Solidity Bootcamp final project
+# Ethereum Developer Bootcamp Final Project
 >Author: Adrian Lenard  
 Date: Jun 7. 2019
 
