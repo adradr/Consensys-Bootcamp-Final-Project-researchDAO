@@ -98,6 +98,7 @@ proposalHash = keccak256(_title, _description, _documentationAddress);
 ```
 struct Member {
     uint shares;
+    uint tokens;
 }
 
 enum Vote {
