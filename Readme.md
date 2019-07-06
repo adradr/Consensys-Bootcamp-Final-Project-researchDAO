@@ -76,7 +76,6 @@ Anyone using an Ethereum wallet could propose an idea for research. He must crea
 
 A proposal has the following attributes:
 * **proposalTitle** -> string
-* **proposalDescription** -> string
 * **proposalDocumentationAddress** -> byte (IPFS address)
 * **proposalFundingGoal** -> uint
 * **proposalPercentForSale** -> uint
@@ -88,11 +87,11 @@ The documentation is stored on **IPFS** and the proposal stores its document has
 
 Funding goal is set in the `fundingGoal` variable and measures the maximum contributon limit, which triggers a successfully funded proposal closure and fund distribution.
 
-The main index for a proposal would be a `proposalHash` that is derived from the **title, description and documentationAddress**. Based on this hash id the proposal is stored in a mapping named `proposals`.
+The main index for a proposal would be a `proposalHash` that is derived from the **title and documentationAddress**. Based on this hash id the proposal is stored in a mapping named `proposals`.
 
 ```
 bytes proposalHash;
-proposalHash = keccak256(_title, _description, _documentationAddress);
+proposalHash = keccak256(_title);
 ```
 **Members, votes and proposals** are stored in the following way:
 ```
