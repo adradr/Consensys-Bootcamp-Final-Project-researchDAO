@@ -4,6 +4,7 @@ const deploymentParams = require('../deployment-params.js')
 module.exports = function(deployer) {
   deployer.deploy(
     researchDAO,
+    //deploymentParams.TOKEN,
     deploymentParams.VOTING_PERIOD,
     deploymentParams.RAGEQUIT_PERIOD,
     deploymentParams.PROPOSAL_DEPOSIT,

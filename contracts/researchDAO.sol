@@ -16,12 +16,12 @@ using SafeMath for uint; // Enabling contract to use SafeMath library for uint t
 
 // Global constants for constructor
 
-uint256 globalVotingPeriod;           // Default value is 30 days or 2.592e+6 seconds
-uint256 globalRagequitPeriod;         // Default value is 7 days or 604800 seconds
-uint256 globalProposalDeposit;        // Default value is 10 ETH
-uint256 globalProcessingReward;       // Default value is 0.1 ETH to incentivize processing; paid from funds - Usage - 10 means: 1/10 ETH per processing
-uint256 globalSummoningTime;          // The block.timestamp at contract deployment
-uint256 globalTokensPerDepositedETH;  // The amount of tokens minted per 1 ETH deposited
+uint256 public globalVotingPeriod;           // Default value is 30 days or 2.592e+6 seconds
+uint256 public globalRagequitPeriod;         // Default value is 7 days or 604800 seconds
+uint256 public globalProposalDeposit;        // Default value is 10 ETH
+uint256 public globalProcessingReward;       // Default value is 0.1 ETH to incentivize processing; paid from funds - Usage - 10 means: 1/10 ETH per processing
+uint256 public globalSummoningTime;          // The block.timestamp at contract deployment
+uint256 public globalTokensPerDepositedETH;  // The amount of tokens minted per 1 ETH deposited
 
 ERC20 public guildERC20Token;         // Reference for the token used for the DAO
 
@@ -62,7 +62,8 @@ struct Member {
     uint256 tokens;   // rDAO tokens - monetary power
 
 }
-mapping (address => Member) public members;  // Storing member details in a mapping
+mapping (address => Member) public members;   // Storing member details in a mapping
+address[] public memberArray;                 // Member array
 
 // Votes
 enum Vote {
@@ -107,8 +108,8 @@ mapping ( address => bytes[] ) public proposalsOfMembers;   // Storing proposals
 // Guild bank - These variables handle internal token and share allocations
 
 // Member shares and tokens are stored in the Member struct used in members mapping
-uint256 rDAO_totalTokenSupply;                // Counting the total supply minted
-uint256 rDAO_totalShareSupply;                // Counting the total shares issued
+uint256 public rDAO_totalTokenSupply;                // Counting the total supply minted
+uint256 public rDAO_totalShareSupply;                // Counting the total shares issued
 
 // Modifiers
 
@@ -154,7 +155,11 @@ modifier memberOnly {
     globalVotingPeriod = _globalVotingPeriod;
     globalRagequitPeriod = _globalRagequitPeriod;
     globalProposalDeposit = _globalProposalDeposit;
+    globalProcessingReward = 10; // _globalProcessingReward.div(100);
     globalTokensPerDepositedETH = _globalTokensPerDepositedETH;
+
+    // Storing summoner as a member
+    memberArray.push(msg.sender);
 
     // Setting up initial founding member and storing his shares in members mapping
     members[msg.sender].shares = _initialSharesRequested;
