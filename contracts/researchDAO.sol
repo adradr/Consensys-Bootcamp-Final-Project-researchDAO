@@ -74,36 +74,29 @@ enum Vote {
 // Proposal structure
 struct Proposal {     // This struct serves as the framework for a proposal to be submitted
 
-    uint256 proposalIndex;
-    address proposer;
-
-    address applicant;
-    uint256 sharesRequested;
-
-    string  title;
-    bytes32 documentationAddress;
-
-    uint256 fundingGoal;
-    //uint256 percentForSale;
-
-    bool    isProposalOpen;
-    uint256 creationTimestamp;
-
-    mapping (address => Vote) votesByMembers;
-    uint256 yesVote;
-    uint256 noVote;
-    bool    didPass;
-
-    uint256 externalFundsCollected;
-
+    uint256 proposalIndex;  // the numeric ID of the proposal
+    address proposer;   // the address of the submitter
+    address applicant;  // the applicant address who would like to join
+    uint256 sharesRequested;  // shares requested for the proposed member
+    string  title;  // simple title for the proposal, e.g.: Adrian L. new membership proposal
+    bytes32 documentationAddress;   // IPFS hash of the detailed documentation, e.g.: research project description
+    uint256 fundingGoal;  // amount of the required funding, this is allocated from guild funds upon voting or collected from external contributors
+    //uint256 percentForSale;   // percentage of the fundable share - to be implemented lated
+    bool    isProposalOpen;   // state of the proposal, default is open, closed in processProposal() call
+    uint256 creationTimestamp;  // block.timestamp when proposal is submitted
+    mapping (address => Vote) votesByMembers;   // stores each members vote in a mapping
+    uint256 yesVote;  // # of Yes votes
+    uint256 noVote;   // # of No votes
+    bool    didPass;  // result state of proposal, changed when calling processProposal()
+    uint256 externalFundsCollected;  // the amount received from external contributors
     bool    isProposalOrApplication;   // This is used for switching between member application and proposal for research.
                                        // [0 = proposal for research, 1 = new member application]
     }
 
-mapping ( uint256 => Proposal ) public proposalsByIndex;    // Storing proposals in a mapping based on proposalIndex as an index
+//mapping ( uint256 => Proposal ) public proposalsByIndex;    // Storing proposals in a mapping based on proposalIndex as an index
 uint256 public proposalCounter;                             // Storing actual highest index for proposals - incremented upon submitProposal()
 Proposal[] public proposalQueue;                            // Storing proposals in an array for queuing
-mapping ( address => bytes[] ) public proposalsOfMembers;   // Storing proposals for each member in an array
+mapping ( address => uint256 ) public proposalsOfMembers;   // Storing proposals for each member in an array
 
 // Guild bank - These variables handle internal token and share allocations
 
@@ -180,15 +173,17 @@ modifier memberOnly {
 
 // Functions
 // ---------
-// submitProposal()           when a member proposes something either for research of new membership
+// submitProposal()           when a member proposes something either for research or new membership application
 // submitVote()               when a member casts a vote on a given proposal from within the DAO
 // processProposal()          when a member finalizes a proposal by closing it and executing it based on the results
+// depositFunds()             when a member wants to deposit ETH in return of guild tokens
+// withdrawFunds()            when a member wants to withdraw his tokens in exchange for ETH
 // rageQuit()                 when a member ragequits and collects his funds based on rDAO token amount
 // externalFundProposal()     when an external contributor funds a specific proposal
 // externalFundDAO()          when an external contributor funds the DAO generally to let internal members decide over the fund
 
-
 function submitProposal(
+bool _isProposalOrApplication,
 address _applicant,
 string memory _title,
 bytes32 _documentationAddress,
@@ -199,21 +194,27 @@ public
 memberOnly
 {
 
-  require(_documentationAddress.length > 0,           "rDAO::submitProposal - Attached documentation is missing");
-  require(_fundingGoal > 0,                           "rDAO::submitProposal - Funding goal cannot be zero");
-  require(_fundingGoal <= MAX_FUNDING_GOAL,           "rDAO::submitProposal - Funding goal is out of boundaries");
-  //require(_percentForSale = 0,                        "rDAO::submitProposal - Percent for sale must be zero until implemented properly");
-  require(_sharesRequested > 0,                       "rDAO::submitProposal - Shares requested cannot be zero");
-  require(_sharesRequested <= MAX_NUMBER_OF_SHARES,   "rDAO::submitProposal - Shares requested is out of boundaries");
+  // Checking inputs for all types of proposal
+  require(_documentationAddress.length > 0,             "rDAO::submitProposal - Attached documentation is missing");
 
+  // IF proposal for research
+  if ( _isProposalOrApplication == true ) {
+    require(_fundingGoal > 0,                           "rDAO::submitProposal - Funding goal cannot be zero");
+    require(_fundingGoal <= MAX_FUNDING_GOAL,           "rDAO::submitProposal - Funding goal is out of boundaries");
+    _sharesRequested = 0;                               // Not needed when proposing a research
+  }
 
-  // Reading proposal type based and storing in bool variable
-  bool _isProposalOrApplication = _applicant == address(0) ? false : true;
+  // IF proposal for new member application
+  if( _isProposalOrApplication == false ) {
+    require(_sharesRequested > 0,                       "rDAO::submitProposal - Shares requested cannot be zero");
+    require(_sharesRequested <= MAX_NUMBER_OF_SHARES,   "rDAO::submitProposal - Shares requested is out of boundaries");
+    _fundingGoal = 0;                                   // Not needed when proposing a new member
+
+  }
 
   // Copying current # for proposals and incrementing counter
   uint256 _proposalIndex = proposalCounter.add(1);
-  proposalCounter.add(1);
-
+  proposalCounter = proposalCounter.add(1);
 
   // Creating proposal with fn parameters
   Proposal memory proposal = Proposal({
@@ -237,13 +238,32 @@ memberOnly
   // Adding the created proposal to the proposal queue
   proposalQueue.push(proposal);
 
+  // Adding proposal to proposalsOfMembers mapping
+  proposalsOfMembers[msg.sender] = _proposalIndex;
+
   // Emitting related event
   emit SubmittedProposal(proposal.proposalIndex, msg.sender, proposal.title, proposal.documentationAddress, proposal.isProposalOrApplication);
 
 }
 
+function submitVote(
+  uint256 _proposalIndex,
+  uint8 _utin8vote
+)
+public
+memberOnly
+{
+// require proposalIndex to a valid proposal using proposalCount
+// check timeframe: require VOTING_PERIOD - proposal.creationTimestamp > 0
+// convert vote from uint to Vote struct to use with votesByMembers
+// store member and his vote in votesByMembers
+//mapping (address => Vote) votesByMembers;   // stores each members vote in a mapping
+// store YesVote or NoVote and add up voter shares
+// emit Event submittedVote()
 
 
+
+}
 
 // Getter functions
 
