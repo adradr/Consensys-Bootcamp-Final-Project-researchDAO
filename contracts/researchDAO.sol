@@ -96,7 +96,7 @@ struct Proposal {     // This struct serves as the framework for a proposal to b
 //mapping ( uint256 => Proposal ) public proposalsByIndex;    // Storing proposals in a mapping based on proposalIndex as an index
 uint256 public proposalCounter;                             // Storing actual highest index for proposals - incremented upon submitProposal()
 Proposal[] public proposalQueue;                            // Storing proposals in an array for queuing
-mapping ( address => uint256 ) public proposalsOfMembers;   // Storing proposals for each member in an array
+mapping ( address => uint256[] ) public proposalsOfMembers;   // Storing proposals for each member in an array
 
 // Guild bank - These variables handle internal token and share allocations
 
@@ -238,8 +238,8 @@ memberOnly
   // Adding the created proposal to the proposal queue
   proposalQueue.push(proposal);
 
-  // Adding proposal to proposalsOfMembers mapping
-  proposalsOfMembers[msg.sender] = _proposalIndex;
+  // Adding proposal to proposalsOfMembers mapping array
+  proposalsOfMembers[msg.sender].push(_proposalIndex);
 
   // Emitting related event
   emit SubmittedProposal(proposal.proposalIndex, msg.sender, proposal.title, proposal.documentationAddress, proposal.isProposalOrApplication);

@@ -75,24 +75,26 @@ Since only internal members are allowed to propose there is an exception designe
 Anyone using an Ethereum wallet could propose an idea for research. He must create materials that are backing his future research plan. The more complex and sound the material is the more likely potential funders are going to belive in the proposer's idea.
 
 A proposal has the following attributes:
-* **proposalTitle** -> string
-* **proposalDocumentationAddress** -> byte (IPFS address)
-* **proposalFundingGoal** -> uint
-* **proposalPercentForSale** -> uint
-* **proposalOwner** -> address
+* **proposalIndex** -> uint
+* **proposer** -> address
+* **title** -> string
+* **documentationAddress** -> byte (IPFS address)
+* **fundingGoal** -> uint
+* **percentForSale** -> uint
 * **isProposalOpen** -> bool
-* **proposalCreationTimestamp** -> now [(importing DateTime for human readable)](https://medium.com/@k3no/making-a-birthday-contract-858fd3f63618)
+* **creationTimestamp** -> now [(importing DateTime for human readable)](https://medium.com/@k3no/making-a-birthday-contract-858fd3f63618)
+* **votesByMembers** -> mapping
+* **yesVote** -> uint
+* **noVote** -> uint
+* **didPass** -> bool
+* **externalFundsCollected** -> uint
+* **isProposalOrApplication** -> bool
 
 The documentation is stored on **IPFS** and the proposal stores its document hash address. Optionally Swarm storage should be researched instead of **IPFS**. In case of **IPFS** integration a service like [**Pinata**](https://pinata.cloud/documentation#GettingStarted) should be used for pinning content.
 
 Funding goal is set in the `fundingGoal` variable and measures the maximum contributon limit, which triggers a successfully funded proposal closure and fund distribution.
 
-The main index for a proposal would be a `proposalHash` that is derived from the **title and documentationAddress**. Based on this hash id the proposal is stored in a mapping named `proposals`.
 
-```
-bytes proposalHash;
-proposalHash = keccak256(_title);
-```
 **Members, votes and proposals** are stored in the following way:
 ```
 struct Member {
@@ -100,29 +102,38 @@ struct Member {
     uint tokens;
 }
 
+mapping (address => Member) public members;   // Storing member details in a mapping
+address[] public memberArray;                 // Member array
+```
+
+```
 enum Vote {
     Null,   // default value
     Yes,
     No
 }
+```
 
-struct Proposal {
+```
+struct Proposal {     // This struct serves as the framework for a proposal to be submitted
 
-    bytes proposalHash;
-    address proposalOwner;
-
-    string title;
-    string description;
-    byte documentationAddress;
-
-    uint fundingGoal;
-    uint percentForSale;
-
-    bool isProposalOpen;
-    uint creationTimestamp;
-
-    mapping (address => Vote) votesByMember;
-
+    uint256 proposalIndex;  // the numeric ID of the proposal
+    address proposer;   // the address of the submitter
+    address applicant;  // the applicant address who would like to join
+    uint256 sharesRequested;  // shares requested for the proposed member
+    string  title;  // simple title for the proposal, e.g.: Adrian L. new membership proposal
+    bytes32 documentationAddress;   // IPFS hash of the detailed documentation, e.g.: research project description
+    uint256 fundingGoal;  // amount of the required funding, this is allocated from guild funds or collected from external contributors
+    //uint256 percentForSale;   // percentage of the fundable share - to be implemented lated
+    bool    isProposalOpen;   // state of the proposal, default is open, closed in processProposal() call
+    uint256 creationTimestamp;  // block.timestamp when proposal is submitted
+    mapping (address => Vote) votesByMembers;   // stores each members vote in a mapping
+    uint256 yesVote;  // # of Yes votes
+    uint256 noVote;   // # of No votes
+    bool    didPass;  // result state of proposal, changed when calling processProposal()
+    uint256 externalFundsCollected;  // the amount received from external contributors
+    bool    isProposalOrApplication;   // This is used for switching between member application and proposal for research.
+                                       // [0 = proposal for research, 1 = new member application]
     }
 
 // Storing proposals in a mapping based on proposalHash as an index
@@ -132,9 +143,9 @@ mapping ( bytes => Proposal ) proposals;
 Proposal[] public proposalQueue;
 ```
 
-Creating a mapping for proposers' Ethereum addresses and corresponding proposals based on `proposalHash`. As a proposer can submit multiple proposals it is stored in an array of bytes.
+Creating a mapping for proposers' Ethereum addresses and corresponding proposals based on `proposalIndex`. As a proposer can submit multiple proposals it is stored in an array of uint.
 ```
-mapping ( address => bytes[] ) proposalsOfMembers
+mapping ( address => uint256[] ) proposalsOfMembers
 ```
 
 ### Document storage
