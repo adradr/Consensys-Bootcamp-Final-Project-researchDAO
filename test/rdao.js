@@ -3,17 +3,13 @@
 // 1. What parameters was the contract deployed with?
 // 2. submitProposal() - proposal for new membership
 // 3. submitProposal() - proposal for research
-// 4. submitVote() - voting on a given proposal
-//              - membership
-//              - research
+// 4. submitVote()  - voting on a given proposal
+//                  - membership
+//                  - research
 // 5. processProposal() - closing a proposal, vote counting, reward and fund distribution or reverting
 // 6. rageQuit() - exiting guild during rage quit period after vote closes
 
 
-// IMPLEMENT SIMILAR
-// async function submitProposal (receiver, amount) {
-//   return rdao.submitProposal(receiver, amount, { from: deployer })
-// }
 
 // truffle-test-utils helps to assert events
 require('truffle-test-utils').init();
@@ -38,6 +34,7 @@ const deploymentParams = require('../deployment-params.js')
 
 // CONTRACT
 contract("rDAO", function(accounts) {
+
 
 const BN = web3.utils.BN      // BigNumbers library - might not need it
 
@@ -67,26 +64,43 @@ const proposalForResearch = {
   sharesRequested: 0
 }
 
-// This is copied from truffle. It is the created researchDAO contract instance address
-var truffleContractAddress = "";
-truffleContractAddress = "0x085A82E375A39A47e3c390dC6D0F7b52a95149Cd";
+// Setting truffle contract address from deployment file
+var truffleContractAddress = deploymentParams.CONTRACT_ADDRESS;
 var rdao;
+
 beforeEach('deployment for each test', async function() {
-  if (truffleContractAddress == "") {
+  if (deploymentParams.DEPLOYMENT_OVERWRITE == false) {
     rdao = await rDAO.deployed();
+    console.log(1);
   }
   else {
     rdao = await rDAO.at(truffleContractAddress);
+    console.log(2);
   }
 
-
 });
+
+// beforeEach('deployment for each test', async function() {
+//   if (truffleContractAddress == "") {
+//     rdao = await rDAO.deployed();
+//     console.log(1);
+//   }
+//   else {
+//     rdao = await rDAO.at(truffleContractAddress);
+//     console.log(2);
+//   }
+
+// });
+
+//console.log("rDAO address" + rDAO.address);
+//console.log("rdao address" + rdao.address);
 
 // Is it deployed properly
 it("rdao should be deployed at address: " + rDAO.address, async () => {
   //const rdao = await rDAO.deployed();
 
   //console.log("rdao: ", rdao.address, "\nrDAO: ", rDAO.address);
+  console.log( truffleContractAddress + " " + rDAO.address + " " + rdao.address );
   assert.isTrue(rdao.address == (truffleContractAddress == "" ? rDAO.address : truffleContractAddress)); 
 });
 
@@ -98,17 +112,52 @@ it("contract global variables should match constructor values", async () => {
   let globalProposalDeposit = await rdao.globalProposalDeposit();
   let globalProcessingReward = await rdao.globalProcessingReward();
   let initialShares = await rdao.rDAO_totalShareSupply();
-  let globalTokensPerDepositedETH = await rdao.globalTokensPerDepositedETH();
+  let globalTokensPerDeposit = await rdao.globalTokensPerDeposit();
+  let globalQuorum = await rdao.globalQuorum();
+  let globalMajority = await rdao.globalMajority();
 
-  assert.equal(globalVotingPeriod, deploymentParams.VOTING_PERIOD, "rDAO::constructor values are not forwarded correctly for deployment - voting period");
-  assert.equal(globalRagequitPeriod, deploymentParams.RAGEQUIT_PERIOD, "rDAO::constructor values are not forwarded correctly for deployment - ragequit period");
-  assert.equal(globalProposalDeposit, deploymentParams.PROPOSAL_DEPOSIT, "rDAO::constructor values are not forwarded correctly for deployment - proposal deposit");
-  assert.equal(globalProcessingReward, deploymentParams.PROCESSING_REWARD, "rDAO::constructor values are not forwarded correctly for deployment - processing reward");
-  assert.equal(initialShares, deploymentParams.INITIAL_SUMMONER_SHARES, "rDAO::constructor values are not forwarded correctly for deployment - initially summoned shares");
-  assert.equal(globalTokensPerDepositedETH, deploymentParams.TOKENS_PER_ETH_DEPOSITED, "rDAO::constructor values are not forwarded correctly for deployment - tokens per ETH deposited");
+  assert.equal(
+    globalVotingPeriod,
+    deploymentParams.VOTING_PERIOD,
+    "rDAO::constructor values are not forwarded correctly for deployment - voting period"
+    );
+  assert.equal(
+    globalRagequitPeriod,
+    deploymentParams.RAGEQUIT_PERIOD,
+    "rDAO::constructor values are not forwarded correctly for deployment - ragequit period"
+    );
+  assert.equal(
+    globalProposalDeposit,
+    deploymentParams.PROPOSAL_DEPOSIT,
+    "rDAO::constructor values are not forwarded correctly for deployment - proposal deposit"
+    );
+  assert.equal(
+    globalProcessingReward,
+    deploymentParams.PROCESSING_REWARD,
+    "rDAO::constructor values are not forwarded correctly for deployment - processing reward"
+    );
+  assert.equal(
+    initialShares,
+    deploymentParams.INITIAL_SUMMONER_SHARES,
+    "rDAO::constructor values are not forwarded correctly for deployment - initially summoned shares"
+    );
+  assert.equal(
+    globalTokensPerDeposit,
+    deploymentParams.TOKENS_PER_ETH_DEPOSITED,
+    "rDAO::constructor values are not forwarded correctly for deployment - tokens per ETH deposited"
+    );
+  assert.equal(
+    globalQuorum,
+    deploymentParams.QUORUM,
+    "rDAO::constructor values are not forwarded correctly for deployment - quorum"
+    );
+  assert.equal(
+    globalMajority,
+    deploymentParams.MAJORITY,
+    "rDAO::constructor values are not forwarded correctly for deployment - majority"
+    );
 
 });
-
 
 
 it("submit proposal for new membership", async () => {
@@ -120,17 +169,15 @@ it("submit proposal for new membership", async () => {
     proposalForNewMember.documentationAddress,
     proposalForNewMember.fundingGoal,
     proposalForNewMember.sharesRequested
-  );
+  ).send(deploymentParams.PROPOSAL_DEPOSIT);
 
   // ToDo assert if values are correct
-
-  assert.equal();
 
 });
 
 it("submit proposal for research", async () => {
   let submission = await rdao.submitProposal(
-    true, //proposalForResearch.isProposalOrApplication,
+    proposalForResearch.isProposalOrApplication,
     proposalForResearch.applicant,
     proposalForResearch.title,
     proposalForResearch.documentationAddress,
@@ -140,12 +187,9 @@ it("submit proposal for research", async () => {
 
   // ToDo assert if values are correct
 
-
 });
 
 it("vote on proposal", async () => {
-
-
 
 });
 

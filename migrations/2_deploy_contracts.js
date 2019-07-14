@@ -10,6 +10,9 @@ module.exports = function(deployer) {
     deploymentParams.PROPOSAL_DEPOSIT,
     deploymentParams.PROCESSING_REWARD,
     deploymentParams.INITIAL_SUMMONER_SHARES,
-    deploymentParams.TOKENS_PER_ETH_DEPOSITED
-    );
+    deploymentParams.TOKENS_PER_ETH_DEPOSITED,
+    deploymentParams.QUORUM,
+    deploymentParams.MAJORITY,
+    //{overwrite: deploymentParams.DEPLOYMENT_OVERWRITE}
+  );
 };
