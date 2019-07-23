@@ -65,7 +65,13 @@ There are multiple ways the DAO can collect funds. First, there are **guild memb
 Since only internal members are allowed to propose there is an exception designed to allow **publicly funded projects to skip internal voting.** If a proposal receive the required funding amount from external parties during the voting period it does not need to rely on member votes to proceed and on the funds of the guild. This also means that the proposal will close and execute fund distribution upon receiving the remaining amount of funds.
 
 ### Proposals
-Anyone using an Ethereum wallet could propose an idea for research. He must create materials that are backing his future research plan. The more complex and sound the material is the more likely potential funders are going to belive in the proposer's idea.
+Anyone being a guild member can propose an idea for research or propose application of a new member. Both functions are handled by the same `submitProposa()` function. Every proposal need to include a deposit to prevent spamming, but after the proposal is processed this amount is returned to the proposer.
+
+#### Application proposal
+Only an existing member can propose new joining applicants. This happens using the `submitProposal()` function also. The submitter needs to pass the applicant's address as well a documentation of the joining members introduction.
+
+#### Research proposal
+Only an existing member can propose an idea for research. He must create materials that are backing his future research plan. The more complex and sound the material is the more likely potential funders are going to belive in the proposer's idea. If the proposal passes by voting then the `fundingGoal` is allocated to the proposer from the guild bank. External contributions sent to the proposal are substracted from the `fundingGoal` and only the remaining amount is transferred from the guild bank.
 
 A proposal has the following attributes:
 * **proposalIndex** -> uint
@@ -116,7 +122,6 @@ struct Proposal {     // This struct serves as the framework for a proposal to b
     string  title;  // simple title for the proposal, e.g.: Adrian L. new membership proposal
     bytes32 documentationAddress;   // IPFS hash of the detailed documentation, e.g.: research project description
     uint256 fundingGoal;  // amount of the required funding, this is allocated from guild funds or collected from external contributors
-    //uint256 percentForSale;   // percentage of the fundable share - to be implemented lated
     bool    isProposalOpen;   // state of the proposal, default is open, closed in processProposal() call
     uint256 creationTimestamp;  // block.timestamp when proposal is submitted
     mapping (address => Vote) votesByMembers;   // stores each members vote in a mapping
@@ -137,11 +142,9 @@ Proposal[] public proposalQueue;
 mapping ( address => uint256[] ) proposalsOfMembers
 ```
 
-
-
 Creating a mapping for proposers' Ethereum addresses and corresponding proposals based on `proposalIndex`. As a proposer can submit multiple proposals it is stored in an array of uint. It helps contract execution to save on gas fees instead of looping to parse proposer addresses in proposals mapping.
 
-By storing also the maximum total shares at the last yes vote on a proposal (`maxTotalSharesAtYesVote`) helps to calculate dilution multiplier when a proposal would execute to safe guard members who do not ragequitted of the effects of dilution. Mapping stores a `proposalIndex` mapped to the number of maximum number of total shares outstanding at the last yes vote.
+By storing also the maximum total shares at the last yes vote on a proposal (`maxTotalSharesAtYesVote`) helps to calculate dilution multiplier when a proposal would execute to safe guard members who did not ragequit of the effects of dilution. Mapping stores a `proposalIndex` mapped to the number of maximum number of total shares outstanding at the last yes vote.
 ```
 mapping(uint256 => uint256) public maxTotalSharesAtYesVote;
 ```
@@ -153,6 +156,10 @@ mapping(uint256 => uint256) public maxTotalSharesAtYesVote;
 Tutorial to implement for IPFS - https://medium.com/@angellopozo/uploading-an-image-to-ipfs-e1f65f039da4
 
 Swarm documentation - https://swarm-guide.readthedocs.io/en/latest/introduction.html
+
+## [Design_pattern_decisions document](design_pattern_decisions.md)
+## [Avoiding common attacks document](avoiding_common_attacks.md)
+
 
 ## Dependencies
 ## Install instructions
@@ -166,9 +173,10 @@ Moloch DAO - https://github.com/MolochVentures/Whitepaper/blob/master/Whitepaper
 
 ## Evaluation checklist
 
-- [ ] README.md
+- [x] README.md
+- [ ] [mythril](https://github.com/ConsenSys/mythril) security audit
 - [ ] Screen recording [!!]
-- [ ] Truffle project - compile, migrate, test
+- [x] Truffle project - compile, migrate, test
 - [x] Commented project
 - [x] Library use
 - [ ] Local development interface
@@ -178,9 +186,9 @@ Moloch DAO - https://github.com/MolochVentures/Whitepaper/blob/master/Whitepaper
 - [ ] 5 tests in Js or Sol
     - [ ] Structured tests
     - [ ] All pass
-- [ ] Circuit breaker/Emergency stop
-- [ ] Project includes a file called design_pattern_desicions.md / at least 2 implemented
-- [ ] avoiding_common_attacks.md and explains at least 3 attacks and how it mitigates
+- [x] Circuit breaker/Emergency stop
+- [x] Project includes a file called design_pattern_desicions.md / at least 2 implemented
+- [x] avoiding_common_attacks.md and explains at least 3 attacks and how it mitigates
 - [ ] deployed_addresses.txt that indicates contract address on testnet
 - [ ] IPFS
 - [ ] upgradeable design pattern
