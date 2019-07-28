@@ -59,7 +59,7 @@ event MemberJoinedGuild(address applicant, uint256 sharesMinted);
 event MemberReceivedNewShares(address applicant, uint256 sharesRequested);
 event MemberApplicationFailed(address applicant, uint256 noVotes, uint256 yesVotes, uint256 totalVotes);
 
-
+// These events need implementation
 event ExternalFundGuild();
 event ExternalFundProposal();
 event RageQuit();
@@ -349,7 +349,12 @@ function confirmApplication(
     members[msg.sender].contribution = msg.value;
     // Emitting relevant event
     emit ConfirmedApplication(_proposalIndex, confirmation);
+  } else {
+    // Delete proposal if applicant cancels
+    delete proposalQueue[_proposalIndex.sub(1)];
   }
+
+
 }
 
 /// @notice submitVote function to cast a vote on a given proposal
@@ -522,6 +527,10 @@ function externalFundProposal(uint256 _proposalIndex) public isValidProposalInde
 function externalFundDAO() public {}
 
 // Getter functions
+function getMembers() public view returns(address[] memory) {
+  return memberArray;
+}
+
 // Allow contract to receive external general contributions that goes to the guild funds
 ///@notice Fallback function for the contract
 function() external payable {}

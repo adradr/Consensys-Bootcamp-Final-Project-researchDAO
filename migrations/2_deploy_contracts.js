@@ -1,6 +1,6 @@
 const researchDAO = artifacts.require("researchDAO");
 const SafeMath = artifacts.require("SafeMath");
-const deploymentParams = require('../deployment-params.js')
+const deploymentParams = require('../deployment-params.js');
 
 module.exports = function(deployer) {
   deployer.deploy(

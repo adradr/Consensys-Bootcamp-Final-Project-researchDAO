@@ -4,7 +4,7 @@
 The researchDAO contract uses time based variables to calculate the proposal voting period end. This is done using the `now` since there is no risk of being attacked with front-running methods. This would only be an issue if the DAO would allow betting on proposal outcomes, where time can be crucial.
 
 ## Reentrancy attack
-To avoid reentrancy attacks all method that are sending ether are written to execute send function at the very end of the method, after substracting balance variables.
+Reentrancy attacks can happen when an attacker would try to call  To avoid reentrancy attacks all method that are sending ether are written to execute send function at the very end of the method, after substracting balance variables.
 
 ## Integer overflows
 In order to to avoid overflow vulnerabilities in the contract constant values have been set to limit the maximum value that can be used for specific variables. `SafeMath` library is used for every `uint` operation in the contract. 
