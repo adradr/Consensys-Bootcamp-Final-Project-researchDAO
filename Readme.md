@@ -180,12 +180,12 @@ Moloch DAO - https://github.com/MolochVentures/Whitepaper/blob/master/Whitepaper
 - [x] Commented project
 - [x] Library use
 - [ ] Local development interface
-    - [ ] Displays the current ETH Account
-    - [ ] Can sign transactions using MetaMask
-    - [ ] App interface reflects contract state
-- [ ] 5 tests in Js or Sol
-    - [ ] Structured tests
-    - [ ] All pass
+    - [x] Displays the current ETH Account
+    - [x] Can sign transactions using MetaMask
+    - [x] App interface reflects contract state
+- [x] 5 tests in Js or Sol
+    - [x] Structured tests
+    - [x] All pass
 - [x] Circuit breaker/Emergency stop
 - [x] Project includes a file called design_pattern_desicions.md / at least 2 implemented
 - [x] avoiding_common_attacks.md and explains at least 3 attacks and how it mitigates
