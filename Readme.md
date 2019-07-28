@@ -1,6 +1,6 @@
 # Consensys Bootcamp Final Project
 >Author: Adrian Lenard
-Date: June 7th, 2019
+>Date: June 7th, 2019
 
 ## researchDAO
 Research funding is mainly done in private rounds with high entry costs and multiple middle mans in the process. There must be an easier way to decentralize and accelerate research funding by letting relevant researchers and funders to join into guilds and govern their own funds. It allows members to propose ideas for research and let governing members decide if guild funds should be allocated for a particular idea. On the other hand it also allows external contributions to take place by letting anyone to transfer funds to the guild or a given proposal.
