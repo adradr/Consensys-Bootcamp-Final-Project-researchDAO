@@ -201,9 +201,14 @@ This runs the `rdao.js` test file under `tests/`
 To be able to interact with the contract in a browser you need to follow these steps:
 ```
 cd client/
+npm run recompiled  // it copies newly compiled ABIs
 npm run start
 ```
 This will launch your development server at `http://localhost:3000`
+
+### 5. step - copy address MNEMONIC into MetaMask wallet
+
+To be able to interact with the contract in a browser you also need to import your mnemonic words of your ganache accounts into MetaMask
 
 ## How to run
 

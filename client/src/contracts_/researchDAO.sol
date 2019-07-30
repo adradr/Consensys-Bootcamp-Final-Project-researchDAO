@@ -117,24 +117,24 @@ uint256 public totalSharesRequested;                 // Counting the total share
 
 // memberOnly serves as the restriction modifier for calls to only allow members to call
 modifier memberOnly {
-    require(members[msg.sender].shares > 0, "rDAO::memberOnly (modifier) - not a member of researchDAO");
+    require(members[msg.sender].shares > 0, "rDAO::memberOnly - not a member of researchDAO");
     _;
 }
 // isSummoner serves as the restriction modifier for calls to only allow summer to call - used in circuit breaker
 modifier isSummoner {
-    require(msg.sender == globalSummonerAddress, "rDAO::isSummoner (modifier) - not the summoner of researchDAO");
+    require(msg.sender == globalSummonerAddress, "rDAO::isSummoner - not the summoner of researchDAO");
     _;
 }
 // Checking if proposal index is a valid proposal
 modifier isValidProposalIndex(uint256 _proposalIndex) {
   require(_proposalIndex > 0 , "rDAO::isValidProposalIndex (modifier) - input parameter must be higher than 0");
-  require(_proposalIndex <= proposalCounter, "rDAO::isValidProposalIndex (modifier) - proposalIndex is not valid, not existing proposal");
+  require(_proposalIndex <= proposalCounter, "rDAO::processProposal - proposalIndex is not valid, not existing proposal");
   _;
 
 }
 // Checking if proposal is open
 modifier isProposalOpen(uint256 _proposalIndex) {
-  require(proposalQueue[_proposalIndex.sub(1)].isProposalOpen == true,  "rDAO::isProposalOpen (modifier) - Proposal is not open");
+  require(proposalQueue[_proposalIndex.sub(1)].isProposalOpen == true,  "rDAO::isProposalOpen - Proposal is not open");
   _;
 }
 

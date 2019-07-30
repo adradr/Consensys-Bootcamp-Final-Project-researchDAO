@@ -9,6 +9,7 @@
     "web3": "^1.0.0-beta.37"
   },
   "scripts": {
+    "recompiled": "cp ../build/contracts/*.json src/contracts/.",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

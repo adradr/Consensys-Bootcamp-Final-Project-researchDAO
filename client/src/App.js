@@ -96,7 +96,7 @@ class App extends Component {
       }
 
       this.proposalItems = this.state.proposalQueue.map((item, key) =>
-      <li key={item.proposalIndex}>#{item.proposalIndex}: {item.title}, {item.proposalApplicant}, {item.documentationAddress}</li>
+      <li key={item.proposalIndex}>#{item.proposalIndex}: {item.title}, Shares: {item.sharesRequested}, Goal: {item.fundingGoal}, Applicant: {item.applicant}</li>
       );
 
 
