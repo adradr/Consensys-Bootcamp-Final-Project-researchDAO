@@ -75,7 +75,6 @@ class App extends Component {
       var members = await instance.methods.getMembers().call();
       this.setState({members: members})
       console.log("membercount:", this.state.members)
-      console.log(members.indexOf("0x386B48F9A023b8D35Ec5f74Dae1606344F2d1Dd8"))
       this.memberItems = this.state.members.map((item, key) =>
       <li key={item.indexOf()}>{item}</li>
       );

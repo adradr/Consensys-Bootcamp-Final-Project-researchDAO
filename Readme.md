@@ -1,4 +1,4 @@
-# Consensys Bootcamp Final Project
+# ConsenSys Bootcamp Final Project
 **Author:** Adrian Lenard
 **Date:** June 7th, 2019
 
@@ -6,15 +6,13 @@
 Research funding is mainly done in private rounds with high entry costs and multiple middle mans in the process. There must be an easier way to decentralize and accelerate research funding by letting relevant researchers and funders to join into guilds and govern their own funds. It allows members to propose ideas for research and let governing members decide if guild funds should be allocated for a particular idea. On the other hand it also allows external contributions to take place by letting anyone to transfer funds to the guild or a given proposal.
 
 ### Model
-The basic workflow would be somewhat similar to crowdfunded models. Their model implies that without a market ready product you are able to measure possible success of a product (or service) by creating a visual representation of the idea and putting it out for customers. Sites like **Kickstarter** uses the same method by allowing anyone (almost) to propose an idea with a rich description of it and let future customers pre-purchase the product. By crowdfunding the initial capital required to start a company it pre-filters the idea for market demand. Also it creates a secondary marketing effect as multiple sites start posting about cool ideas.
+The basic workflow would be somewhat similar to crowdfunded models. Their model implies that without a market ready product you are able to measure possible success of a product (or service) by creating visual materials of the idea and putting it out for customers. Sites like **Kickstarter** uses the same method by allowing anyone (almost) to propose an idea with a rich description of it and let future customers pre-purchase the product. By crowdfunding the initial capital required to start a company it pre-filters the idea for market demand. Also it creates a secondary marketing effect as multiple sites start posting about cool ideas.
 
 This researchDAO is similarly aims to pre-filter research ideas and host a platform where funding can happen using cryptocurrencies. The difference between a simple crowdfunding model and researchDAO is that the latter implements a guild like model to gather primary stakeholders and experts of research. The guild operates with a governance model implemented in the researchDAO protocol.
 
 **If the idea passes the guild voting or reaches the required pre-set funding goal by external contributions** the funds are allowed to be collected by the proposer and start the researching of the idea.
 
 **If the idea does not reaches the goal or passes the vote within a given timeframe** then the funds get reallocated to the funders, the proposal closes and the idea does not turn reality.
-
-If the funding is successfull the distribution happens. Platform fees are deducted before transferring funds in ETH to the proposer. **Platform fee is set at 0.5% of total funding** received for the given research proposal. This fee supports developers of the platform.
 
 ### Basic workflow of the researchDAO
 ![alt text][logo]
@@ -30,9 +28,9 @@ Generally DAOs are governed by a voting mechanims that is a timeframe which allo
 
 **There are two kinds of proposals in researchDAO.** The first mechanism is `member application and share allocation` withing the guild in order to form the stakeholders of the DAO. The second type is when somebody submits a `proposal for research`.
 
-Internal voting is designed with simple rules in researchDAO. **Voting period is the time frame a proposal is open for voting.** The corresponding variable called `globalVotingPeriod`. Another period is defined in the DAO called `globalRagequitPeriod`, which serves as a grace period meanwhile voters who voted `No` on a proposal can call ragequit. The periods are calculated by comparing time spent since proposal submission derived from block timestamps. This method can bear risks by miner manipulation with a timeframe of ~30 seconds, but in the current model of the DAO this cannot effect any outcome, like in a [case of a decentralized exchange (DEX)](https://docs.binance.org/anti-frontrun.html).
+Internal voting is designed with simple rules in researchDAO. **Voting period is the time frame a proposal is open for voting.** The corresponding variable called `globalVotingPeriod`. Another period is defined in the DAO called `globalRagequitPeriod`, which serves as a grace period meanwhile voters who voted `No` on a proposal can call ragequit. The periods are calculated by comparing time spent since proposal submission derived from `block timestamps`. This method can bear risks by miner manipulation with a timeframe of ~30 seconds, but in the current model of the DAO this cannot effect any outcome, like in a [case of a decentralized exchange (DEX)](https://docs.binance.org/anti-frontrun.html).
 
-Processing reward is defined to incentivize member to call processProposal function and therefore execute closing of an ended proposal. This reward is set by the `globalProcessingReward` and defaults to a minimal amount like 0.1ETH. Proposal deposit requirement is set by `globalProcessingReward` to help as an anti-spam method to disincentivize member of submitting a proposals and dilute other members focus on promising proposals.
+**Processing reward** is defined to incentivize member to call processProposal function and therefore execute closing of an ended proposal. This reward is set by the `globalProcessingReward` and defaults to a minimal amount like 0.1ETH. Proposal deposit requirement is set by `globalProcessingReward` to help as an anti-spam method to disincentivize member of submitting a proposals and dilute other members focus on promising proposals.
 
 <!--
 
@@ -51,9 +49,10 @@ uint rDAO_totalTokenSupply;
 **Voting power or reputation** is measured in `voting shares`. This is a token that can be minted by the guild bank by the allowance of the members of the DAO. This means that the power distribution happens in a collective manner, where members have the ability to `ragequit` anytime they like, to prevent undesired outcomes. For an example image a situation in which a member or a group of members owning >50% of voting power votes a proposal to allocate themselves ridiculously more shares and therefore diluting the other members in the guild. To prevent such circumstance `ragequit` is introduced based on the [**Moloch DAO**](https://github.com/MolochVentures/moloch/blob/5b804667c8ba0d35a472ccedb11934c3cfbf10ad/contracts/Moloch.sol#L334) implementation. After each proposal end, a **grace period** (`globalRagequitPeriod`) starts in which members who voted NO can still quit the guild and withdraw their funds before the proposal gets executed.
 
 ```
-mapping (address => uint) rDAO_votingShares;
-uint rDAO_totalShareSupply;
+uint256 public rDAO_totalShareSupply;
+uint256 public totalSharesRequested;
 ```
+
 ### Funding of the DAO
 
 There are multiple ways the DAO can collect funds. First, there are **guild members** who are sending in funds while entering the guild. And there are also **external contributors** who does not want to enter the guild by applying for membership but wants to fund research efforts of people.
@@ -62,13 +61,13 @@ There are multiple ways the DAO can collect funds. First, there are **guild memb
 
 **External funding** can happen by anyone from an address that does not belong to a guild member. Proposals are public and can be browsed by external parties. External contributors can fund the guild bank generally or a proposal directly.
 
-Since only internal members are allowed to propose there is an exception designed to allow **publicly funded projects to skip internal voting.** If a proposal receive the required funding amount from external parties during the voting period it does not need to rely on member votes to proceed and on the funds of the guild. This also means that the proposal will close and execute fund distribution upon receiving the remaining amount of funds.
+Since only internal members are allowed to vote there is an exception designed to allow **publicly funded projects to skip internal voting.** If a proposal receive the required funding amount from external parties during the voting period it does not need to rely on member votes to proceed and on the funds of the guild. This also means that the proposal will close and execute fund distribution upon receiving the remaining amount of funds. *In an example when the proposal collects 50% of funds externally and gets voted by the internal members, the DAO only transfers the remaining 50% of the funds, therefore saves its funds.*
 
 ### Proposals
-Anyone being a guild member can propose an idea for research or propose application of a new member. Both functions are handled by the same `submitProposa()` function. Every proposal need to include a deposit to prevent spamming, but after the proposal is processed this amount is returned to the proposer.
+Anyone being a guild member can propose an `idea for research` or propose `application of a new member`. Both functions are handled by the same `submitProposa()` function. Every proposal need to include a `deposit` to prevent spamming, but after the proposal is processed and closed this amount is returned to the proposer.
 
 #### Application proposal
-Only an existing member can propose new joining applicants. This happens using the `submitProposal()` function also. The submitter needs to pass the applicant's address as well a documentation of the joining members introduction.
+Only an existing member can propose new joining applicants. This happens using the `submitProposal()` function also. The submitter needs to pass the applicant's address as well as the documentation of the joining members introduction and the shares he requests.
 
 #### Research proposal
 Only an existing member can propose an idea for research. He must create materials that are backing his future research plan. The more complex and sound the material is the more likely potential funders are going to belive in the proposer's idea. If the proposal passes by voting then the `fundingGoal` is allocated to the proposer from the guild bank. External contributions sent to the proposal are substracted from the `fundingGoal` and only the remaining amount is transferred from the guild bank.
@@ -89,7 +88,7 @@ A proposal has the following attributes:
 * **externalFundsCollected** -> uint
 * **isProposalOrApplication** -> bool
 
-The documentation is stored on **IPFS** and the proposal stores its document hash address. Optionally Swarm storage should be researched instead of **IPFS**. In case of **IPFS** integration a service like [**Pinata**](https://pinata.cloud/documentation#GettingStarted) should be used for pinning content.
+The documentation address is stored in a `byte32` storage to support **IPFS hash** and each proposal stores its corresponding document hash address. Optionally Swarm storage should be researched instead of **IPFS**. In case of **IPFS** integration a service like [**Pinata**](https://pinata.cloud/documentation#GettingStarted) should be used for pinning content. Storage needs implementation in the react interface, currently only the proposal variable supports IPFS hashes.
 
 Funding goal is set in the `fundingGoal` variable and measures the maximum contributon limit, which triggers a successfully funded proposal closure and fund distribution.
 
@@ -150,20 +149,79 @@ mapping(uint256 => uint256) public maxTotalSharesAtYesVote;
 ```
 
 
-### Document storage
-> not yet implemented, needs interface development
-
-Tutorial to implement for IPFS - https://medium.com/@angellopozo/uploading-an-image-to-ipfs-e1f65f039da4
-
-Swarm documentation - https://swarm-guide.readthedocs.io/en/latest/introduction.html
+### Functions not implemented yet
+There are some functionality that has not been developed due to the closeness of project deadline. The `external funding` and `ragequit` functions are not implemented and also its corresponding logic like external fund and internal voting distribution when processing a proposal. Another logic is missing that would be responsible to only allow proposals to be submitted that can be funded from the actual funds of the DAO and somehow it should limit proposal submission or lock-up funds for proposals. *In return it would avoid situations where for example the total funds are 100ETH and two proposals are submitted and voted yes with a funding goal of 60ETH each.*
 
 ## [Design pattern decisions document](design_pattern_decisions.md)
 ## [Avoiding common attacks document](avoiding_common_attacks.md)
 
-
 ## Dependencies
+
+* truffle
+* ganache
+* npm
+
 ## Install instructions
+
+Contracts are stored in `contracts/` folder and the react interface is under `client/`.
+
+### 1. step - clone the repo
+
+```
+git clone https://github.com/adradr/Consensys-Bootcamp-Final-Project-researchDAO.git
+
+cd ConsenSys-Bootcamp-Final-Project-researchDAO
+```
+### 2. step - ganache
+
+Run your development network with ganache-cli or open ganache GUI
+```
+ganache-cli
+```
+Create a new workspace and set development port to `7545` or change it in `truffle-config.js`
+
+### 3. step - truffle
+
+The main contract, researchDAO.sol is deployed with multiple constructor arguments. In order to configure these you can edit `deployment-params.js` in root.
+
+To compile and deploy contract run:
+```
+truffle migrate
+```
+This command will compile contracts and deploy them to the development network. At this point you will be able to see the deployed contract address in ganache.
+
+To run unit test run:
+```
+truffle test
+```
+This runs the `rdao.js` test file under `tests/`
+
+### 4. step - run react interface
+
+To be able to interact with the contract in a browser you need to follow these steps:
+```
+cd client/
+npm run start
+```
+This will launch your development server at `http://localhost:3000`
+
 ## How to run
+
+In order to successfully experiment with the contract you need to edit deployment parameters. (*Suggestion: set globalVotingPeriod to 60 or 120 seconds to eliminate excessive waiting to process proposal*) After deploying the contract there will be only one member of the DAO, the address which deployed the contract (`accounts[0]`).
+
+### Flow of the DAO:
+
+**Submit proposal for new member application**
+1. Submit a proposal for new applicant
+2. Confirm application from the proposed applicants address (`accounts[1]`)
+3. Vote **YES** from the deployer address (`accounts[0]`)
+4. Wait for the voting period to pass, and call processProposal()
+5. Check the newly added member to the DAO.
+
+**Submit proposal for research**
+1. Submit proposal for research
+2. Vote with member accounts (`accounts[0]` and `accounts[1]`)
+3. Process the proposal after voting period passed.
 
 ## Ideas:
 * ENS implementation for the contract

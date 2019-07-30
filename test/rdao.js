@@ -241,6 +241,6 @@ contract("researchDAO", function(accounts) {
 
   // More test ideas:
   //    -testing quorum and majority
-  //    -
+  //
 
 });
