@@ -5,11 +5,7 @@
 
 pragma solidity ^0.5.0;
 
-// Importing SafeMath library for safe operations
-import './OpenZeppelin//SafeMath.sol';
-
-// Imports for Remix IDE
-//import 'https://github.com/OpenZeppelin/openzeppelin-solidity/blob/master/contracts/math/SafeMath.sol';
+import "./SafeMath.sol";
 
 contract researchDAO {
 

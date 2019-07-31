@@ -22,11 +22,7 @@ contract("researchDAO", function(accounts) {
   // Setting up test variables for accounts and proposal bodies
   const summonerAddress = accounts[0];
   const secondMember = accounts[1];
-  const thirdMember = accounts[2];
-  const fourthMember = accounts[3];
 
-  deposit = web3.utils.toWei("10","ether")
-  //deposit = web3.utils.toWei(deploymentParams.globalProposalDeposit,"ether")
 
   const proposalForNewMember = {
     isProposalOrApplication: false,
@@ -34,7 +30,7 @@ contract("researchDAO", function(accounts) {
     title: "Member application for testing",
     documentationAddress: "0x0",   // Empty document
     fundingGoal: 0,
-    sharesRequested: 10            // as much the initial summoner received based on deploymentParams.INITIAL_SUMMONER_SHARES
+    sharesRequested: deploymentParams.INITIAL_SUMMONER_SHARES   // as much the initial summoner received based on deploymentParams.INITIAL_SUMMONER_SHARES
 
   }
 
@@ -43,7 +39,7 @@ contract("researchDAO", function(accounts) {
     applicant: secondMember,      // Solve to allow empty or null address as input
     title: "Research proposal for testing",
     documentationAddress: "0x0",  // Empty document
-    fundingGoal: 5,
+    fundingGoal: deploymentParams.PROPOSAL_DEPOSIT,
     sharesRequested: 0
   }
   // Custom function to delay execution to wait for globalVotingPeriod to pass
@@ -55,6 +51,10 @@ contract("researchDAO", function(accounts) {
   var proposalIndex = 1
   let proposalConfirmation = true
 
+  contribution = web3.utils.toWei("1","ether")
+  const number = web3.utils.toBN(deploymentParams.PROPOSAL_DEPOSIT)
+  deposit = web3.utils.toWei(number,"ether")
+
   var rdao
   var deployAddress = deploymentParams.TRUFFLE_CONTRACT_ADDRESS
 
@@ -63,15 +63,15 @@ contract("researchDAO", function(accounts) {
       if (deployAddress == "") {
         rdao = await researchDAO.deployed()
       } else {
-//      let deployAddress = deploymentParams.TRUFFLE_CONTRACT_ADDRESS
         rdao = await researchDAO.at(deployAddress)
       }
-      let address = rdao.address
+      //let address = rdao.address
   });
+
+
 
   it("rdao should be deployed at address", async () => {
     assert.isTrue(rdao.address == (deployAddress == "" ? researchDAO.address : deployAddress));
-    //console.log("1st test: ", rdao.address, (deploymentParams.DEPLOYMENT_OVERWRITE ? researchDAO.address : deployAddress))
   });
 
   it("contract global variables should match constructor values", async () => {
@@ -143,7 +143,9 @@ contract("researchDAO", function(accounts) {
       proposalForNewMember.sharesRequested,
       {value:deposit}
     )
+
     proposalIndex = submission.logs[0].args[0] // Storing proposalIndex by emitted event argument
+
     assert.equal(
       submission.logs[0].args[2],
       proposalForNewMember.title,
@@ -153,7 +155,7 @@ contract("researchDAO", function(accounts) {
 
   it("confirm application", async () => {
 
-    resConfirm = await rdao.confirmApplication(proposalIndex,proposalConfirmation,{from:secondMember,value: deposit})
+    resConfirm = await rdao.confirmApplication(proposalIndex,proposalConfirmation,{from:secondMember,value: contribution})
     confirmedState = await rdao.proposalQueue(proposalIndex-1)
 
     assert.equal(
@@ -238,18 +240,6 @@ contract("researchDAO", function(accounts) {
     assert.isTrue(!proposalState.isProposalOpen, "rDAO::processProposal - Proposal is still open")
     assert.isTrue(!proposalState.didPass, "rDAO::processProposal - Proposal did pass, while it shouldnt have")
     assert.equal(proposalState.noVote.toString(), votingPower.shares.toString(), "rDAO::processProposal - NO votes do not add up")
-
-  });
-
-  it("evaluate final balances", async () => {
-    finalBalance = deposit - proposalForResearch.fundingGoal
-    assert.equal(rdao.balance, finalBalance "rDAO::balances - Final balances do not add up")
-
-  });
-
-  it("check members' share count", async () => {
-    finalBalance = deposit - proposalForResearch.fundingGoal
-    assert.equal(rdao.balance, finalBalance "rDAO::balances - Final balances do not add up")
 
   });
 

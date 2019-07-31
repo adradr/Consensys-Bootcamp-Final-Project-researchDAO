@@ -234,8 +234,28 @@ In order to successfully experiment with the contract you need to edit deploymen
 
 ## Deployed addresses
 
-The contract lives on the `Ropsten` testnet at address: [0x6cB2d3A77662A113137ee319C28689CfDD2e65DA](https://ropsten.etherscan.io/address/0x6cb2d3a77662a113137ee319c28689cfdd2e65da)
+The `verified` contract deployed on the `Kovan` testnet at address: [0x8441b6135205f66F71cFB055d6D4120785d6da63](https://kovan.etherscan.io/address/0x8441b6135205f66F71cFB055d6D4120785d6da63)
 
+
+The deployed DAO has 2 members enrolled, the summoner and the first applied member.
+
+**Summoner:** 0x119ecb16ed7af96a5ec312830dfc44e3252b053
+**Second member:** 0x5c9fa1769c818396659c3dfba9b3ee41508c0f4e
+
+Deployed constructor parameters:
+* globalVotingPeriod - 120 seconds
+* globalRagequitPeriod - 120 seconds
+* globalProposalDeposit - 1 ETH
+* globalProcessingReward - 0.1 ETH
+* initialSharesRequested - 10 shares
+* globalQuorum and globalMajority - 50% both
+* globalDilutionBound - 2x
+
+## IPFS
+
+The contract interface is hosted on IPFS here:
+[https://ipfs.io/ipfs/QmUoRnQPoVonDmfJZjb25ijSWwGXUdkBAPqjXYkvsFCEZ9/
+](https://ipfs.io/ipfs/QmUoRnQPoVonDmfJZjb25ijSWwGXUdkBAPqjXYkvsFCEZ9/)
 ## Ideas:
 * ENS implementation for the contract
 
