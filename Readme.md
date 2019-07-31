@@ -266,7 +266,7 @@ Moloch DAO - https://github.com/MolochVentures/Whitepaper/blob/master/Whitepaper
 
 - [x] README.md
 - [x] [mythril](https://github.com/ConsenSys/mythril) security audit
-- [ ] Screen recording [!!]
+- [x] Screen recording [!!]
 - [x] Truffle project - compile, migrate, test
 - [x] Commented project
 - [x] Library use
@@ -281,11 +281,11 @@ Moloch DAO - https://github.com/MolochVentures/Whitepaper/blob/master/Whitepaper
 - [x] Project includes a file called design_pattern_desicions.md / at least 2 implemented
 - [x] avoiding_common_attacks.md and explains at least 3 attacks and how it mitigates
 - [x] deployed_addresses.txt that indicates contract address on testnet
-- [-] IPFS
+- [x] IPFS
 - [-] upgradeable design pattern
 - [-] One contract written in Vyper or LLL
 - [-] uPort
-- [½] ENS
+- [-] ENS
 - [-] Oracle
 
 <!-- ## Not implemented future ideas
