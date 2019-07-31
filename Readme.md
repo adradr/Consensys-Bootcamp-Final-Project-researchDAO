@@ -251,13 +251,16 @@ Deployed constructor parameters:
 * globalQuorum and globalMajority - 50% both
 * globalDilutionBound - 2x
 
-## IPFS
+## IPFS
 
 The contract interface is hosted on IPFS here:
 [https://ipfs.io/ipfs/QmUoRnQPoVonDmfJZjb25ijSWwGXUdkBAPqjXYkvsFCEZ9/
 ](https://ipfs.io/ipfs/QmUoRnQPoVonDmfJZjb25ijSWwGXUdkBAPqjXYkvsFCEZ9/)
-## Ideas:
-* ENS implementation for the contract
+
+## Screen recording
+
+The screen recording can be found [here on YouTube](https://youtu.be/hPPPqC44m74)
+
 
 ## Sources
 Moloch DAO - https://github.com/MolochVentures/Whitepaper/blob/master/Whitepaper.pdf
