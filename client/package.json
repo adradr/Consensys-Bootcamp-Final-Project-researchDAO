@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@primer/octicons-react": "^9.1.1",
+    "dotenv": "^8.0.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-scripts": "2.1.1",
+    "truffle-flattener": "^1.4.0",
+    "truffle-hdwallet-provider": "^1.0.15",
     "web3": "^1.0.0-beta.37"
   },
   "scripts": {

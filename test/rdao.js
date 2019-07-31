@@ -26,6 +26,7 @@ contract("researchDAO", function(accounts) {
   const fourthMember = accounts[3];
 
   deposit = web3.utils.toWei("10","ether")
+  //deposit = web3.utils.toWei(deploymentParams.globalProposalDeposit,"ether")
 
   const proposalForNewMember = {
     isProposalOrApplication: false,
@@ -42,7 +43,7 @@ contract("researchDAO", function(accounts) {
     applicant: secondMember,      // Solve to allow empty or null address as input
     title: "Research proposal for testing",
     documentationAddress: "0x0",  // Empty document
-    fundingGoal: 10,
+    fundingGoal: 5,
     sharesRequested: 0
   }
   // Custom function to delay execution to wait for globalVotingPeriod to pass
@@ -55,19 +56,20 @@ contract("researchDAO", function(accounts) {
   let proposalConfirmation = true
 
   var rdao
-  let deployAddress = deploymentParams.TRUFFLE_CONTRACT_ADDRESS
+  var deployAddress = deploymentParams.TRUFFLE_CONTRACT_ADDRESS
 
   beforeEach("deployment for test", async function() {
-    // If deploymentParams.TRUFFLE_CONTRACT_ADDRESS is empty deploy new contract instance
+    // If deploymentParams.TRUFFLE_CONTRACT_ADDRESS is empty use deployed
       if (deployAddress == "") {
         rdao = await researchDAO.deployed()
       } else {
-        let deployAddress = deploymentParams.TRUFFLE_CONTRACT_ADDRESS
+//      let deployAddress = deploymentParams.TRUFFLE_CONTRACT_ADDRESS
         rdao = await researchDAO.at(deployAddress)
       }
+      let address = rdao.address
   });
 
-  it("rdao should be deployed at address: ", async () => {
+  it("rdao should be deployed at address", async () => {
     assert.isTrue(rdao.address == (deployAddress == "" ? researchDAO.address : deployAddress));
     //console.log("1st test: ", rdao.address, (deploymentParams.DEPLOYMENT_OVERWRITE ? researchDAO.address : deployAddress))
   });
@@ -185,7 +187,7 @@ contract("researchDAO", function(accounts) {
     let proposalState = await rdao.proposalQueue(proposalIndex-1)
     assert.isTrue(!proposalState.isProposalOpen, "rDAO::processProposal - Proposal is still open")
     assert.isTrue(proposalState.didPass, "rDAO::processProposal - Proposal did not pass, while it should have")
-    assert.equal(proposalState.yesVote.toString(), votingPower.shares.toString(), "rDAO::processProposal - Yes votes do not add up")
+    assert.equal(proposalState.yesVote.toString(), votingPower.shares.toString(), "rDAO::processProposal - YES votes do not add up")
 
   });
 
@@ -235,7 +237,19 @@ contract("researchDAO", function(accounts) {
     let proposalState = await rdao.proposalQueue(proposalIndex-1)
     assert.isTrue(!proposalState.isProposalOpen, "rDAO::processProposal - Proposal is still open")
     assert.isTrue(!proposalState.didPass, "rDAO::processProposal - Proposal did pass, while it shouldnt have")
-    assert.equal(proposalState.noVote.toString(), votingPower.shares.toString(), "rDAO::processProposal - No votes do not add up")
+    assert.equal(proposalState.noVote.toString(), votingPower.shares.toString(), "rDAO::processProposal - NO votes do not add up")
+
+  });
+
+  it("evaluate final balances", async () => {
+    finalBalance = deposit - proposalForResearch.fundingGoal
+    assert.equal(rdao.balance, finalBalance "rDAO::balances - Final balances do not add up")
+
+  });
+
+  it("check members' share count", async () => {
+    finalBalance = deposit - proposalForResearch.fundingGoal
+    assert.equal(rdao.balance, finalBalance "rDAO::balances - Final balances do not add up")
 
   });
 

@@ -1,0 +1,247 @@
+<div className="App container">
+  <center>
+    <br />
+    <h1 className="text-center">Welcome to researchDAO!</h1>
+    <div class="alert alert-primary" role="alert">
+      Contract is deployed at address: {this.state.address}
+    </div>
+    <h2>Members of the DAO</h2>
+    <table className="table table-bordered">
+      <thead className="thead-light">
+        {this.memberItemsheader}
+      </thead>
+      <tbody>
+        {this.memberItems}
+      </tbody>
+    </table>
+
+    <h2>Submitted proposals</h2>
+    <table className="table table-bordered">
+      <thead className="thead-light">
+        {this.proposalItemsheader}
+      </thead>
+      <tbody>
+        {this.proposalItems}
+      </tbody>
+    </table>
+
+  </center>
+  <div id="accordion">
+    <div class="card">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+            aria-controls="collapseOne">
+            <strong>
+              <h2>Submit Proposal</h2>
+            </strong>
+          </button>
+        </h5>
+      </div>
+      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
+          <div className="card mt-3 shadow">
+            <div className="card-header text-left">
+              <div class="alert alert-danger" role="alert">
+                <strong>Please fill out all fields even if not applicable!</strong>
+              </div>
+            </div>
+
+            <div className="card-body">
+
+              <form onSubmit={this.handleSubmitProposal}>
+
+                <div className="form-group">
+                  <label>
+                    <strong>Proposal for research or Application</strong>
+                    <br />
+                  </label>
+                  <input type="text" className="form-control" name="proposalOrApplication" id="proposalOrApplication"
+                    placeholder="true = research / false = application" onChange={this.handleChange} />
+                </div>
+
+                <div className="form-group">
+                  <label>
+                    <strong>Proposal title</strong>
+                  </label>
+                  <input type="text" className="form-control" name="proposalTitle" id="proposalTitle"
+                    placeholder="Membership application John Appleseed" onChange={this.handleChange} />
+                </div>
+
+                <div className="form-group">
+                  <label>
+                    <strong>Proposal applicant address</strong>
+                  </label>
+                  <input type="text" className="form-control" name="proposalApplicantAddress"
+                    id="proposalApplicantAddress" placeholder="0x61eD7f24C14EaD5A605d8B839aab5e1cC445d8D2"
+                    onChange={this.handleChange} />
+                </div>
+
+                <div className="form-group">
+                  <label>
+                    <strong>Proposal documentation address - IPFS hash</strong>
+                  </label>
+                  <input type="text" className="form-control" name="proposalDocumentationHash"
+                    id="proposalDocumentationHash" placeholder="QmWSFBuzLXwcQKudj3ZtWV9kWbFv4KqQZretBhdqSxj4MG"
+                    onChange={this.handleChange} />
+                </div>
+
+                <div className="form-group">
+                  <label>
+                    <strong>Proposal funding goal in ETH</strong>
+                  </label>
+                  <input type="number" className="form-control" name="proposalFundingGoal" placeholder="10"
+                    onChange={this.handleChange} />
+                </div>
+
+                <div className="form-group">
+                  <label>
+                    <strong>Proposal shares requested</strong>
+                  </label>
+                  <input type="number" className="form-control" name="proposalSharesRequested" placeholder="10"
+                    id="proposalSharesRequested" onChange={this.handleChange} />
+                </div>
+
+                <div className="form-group text-center">
+                  <input type="submit" className="btn btn-primary" value="Submit proposal" />
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+            aria-controls="collapseTwo">
+            <strong>
+              <h2>Confirm application</h2>
+            </strong>
+          </button>
+        </h5>
+      </div>
+      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div class="card-body">
+          <div className="card mt-3 shadow">
+            <div className="card-body">
+
+              <form onSubmit={this.handleSubmitConfirmation}>
+                <div className="form-group">
+                  <label>
+                    <strong>Proposal index #</strong>
+                  </label>
+                  <input type="number" className="form-control" name="proposalIndexToConfirm"
+                    id="proposalIndexToConfirm" placeholder="123" onChange={this.handleChange} />
+                </div>
+
+                <div className="form-group">
+                  <label>
+                    <strong>Confirmation</strong>
+                  </label>
+                  <input type="text" className="form-control" name="proposalConfirmValue" id="proposalConfirmValue"
+                    placeholder="true/false" onChange={this.handleChange} />
+                </div>
+
+                <div className="form-group">
+                  <label>
+                    <strong>Application contribution</strong>
+                  </label>
+                  <input type="text" className="form-control" name="proposalContribution" id="proposalContribution"
+                    placeholder="10" onChange={this.handleChange} />
+                </div>
+                <div className="form-group text-center">
+                  <input type="submit" className="btn btn-primary" value="Submit confirmation" />
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="headingThree">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree"
+            aria-expanded="false" aria-controls="collapseThree">
+            <strong>
+              <h2>Vote on proposal</h2>
+            </strong>
+          </button>
+        </h5>
+      </div>
+      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+        <div class="card-body">
+          <div className="card mt-3 shadow">
+            <div className="card-body">
+              <form onSubmit={this.handleSubmitVote}>
+                <div className="form-group">
+                  <label>
+                    <strong>Proposal index #</strong>
+                  </label>
+                  <input type="number" className="form-control" name="proposalIndexToVote" id="proposalIndexToVote"
+                    placeholder="123" onChange={this.handleChange} />
+                </div>
+                <div className="form-group">
+                  <label>
+                    <strong>Vote</strong>
+                  </label>
+                  <input type="number" className="form-control" name="proposalVote" id="proposalVote"
+                    placeholder="Yes = 1 /  No = 2" onChange={this.handleChange} />
+                </div>
+                <div className="form-group text-center">
+                  <input type="submit" className="btn btn-primary" value="Submit vote" />
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+        <div class="card-header" id="headingThree">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree"
+              aria-expanded="false" aria-controls="collapseThree">
+              <strong>
+                <h2>Vote on proposal</h2>
+              </strong>
+            </button>
+          </h5>
+        </div>
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+          <div class="card-body">
+            <div className="card mt-3 shadow">
+                <div className="card-header text-left" text-color="blue">
+                  <h2>Process proposal</h2>
+                </div>
+                <div className="card-body">
+                  <form onSubmit={this.handleProcess}>
+                    <div className="form-group">
+                      <label>
+                        <strong>Proposal index #</strong>
+                      </label>
+                      <input type="number" className="form-control" name="proposalIndexToProcess" id="proposalIndexToProcess"
+                        placeholder="420" onChange={this.handleChange} />
+                    </div>
+                    <div className="form-group text-center">
+                      <input type="submit" className="btn btn-primary" value="Submit process" />
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+  </div>
+
+
+
+
+
+
+
+
+
+</div>

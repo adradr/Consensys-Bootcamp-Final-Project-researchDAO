@@ -152,8 +152,8 @@ mapping(uint256 => uint256) public maxTotalSharesAtYesVote;
 ### Functions not implemented yet
 There are some functionality that has not been developed due to the closeness of project deadline. The `external funding` and `ragequit` functions are not implemented and also its corresponding logic like external fund and internal voting distribution when processing a proposal. Another logic is missing that would be responsible to only allow proposals to be submitted that can be funded from the actual funds of the DAO and somehow it should limit proposal submission or lock-up funds for proposals. *In return it would avoid situations where for example the total funds are 100ETH and two proposals are submitted and voted yes with a funding goal of 60ETH each.*
 
-## [Design pattern decisions document](design_pattern_decisions.md)
-## [Avoiding common attacks document](avoiding_common_attacks.md)
+## [Design pattern decisions document](docs/design_pattern_decisions.md)
+## [Avoiding common attacks document](docs/avoiding_common_attacks.md)
 
 ## Dependencies
 
@@ -175,9 +175,12 @@ cd ConsenSys-Bootcamp-Final-Project-researchDAO
 ### 2. step - ganache
 
 Run your development network with ganache-cli or open ganache GUI
+**ganache-cli**
+Run `ganache-cli` from command line:
 ```
-ganache-cli
+ganache-cli --port 7545 -a 3 -e 100
 ```
+**ganache gui**
 Create a new workspace and set development port to `7545` or change it in `truffle-config.js`
 
 ### 3. step - truffle
@@ -201,6 +204,7 @@ This runs the `rdao.js` test file under `tests/`
 To be able to interact with the contract in a browser you need to follow these steps:
 ```
 cd client/
+npm install
 npm run recompiled  // it copies newly compiled ABIs
 npm run start
 ```
@@ -228,6 +232,10 @@ In order to successfully experiment with the contract you need to edit deploymen
 2. Vote with member accounts (`accounts[0]` and `accounts[1]`)
 3. Process the proposal after voting period passed.
 
+## Deployed addresses
+
+The contract lives on the `Ropsten` testnet at address: [0x6cB2d3A77662A113137ee319C28689CfDD2e65DA](https://ropsten.etherscan.io/address/0x6cb2d3a77662a113137ee319c28689cfdd2e65da)
+
 ## Ideas:
 * ENS implementation for the contract
 
@@ -237,12 +245,12 @@ Moloch DAO - https://github.com/MolochVentures/Whitepaper/blob/master/Whitepaper
 ## Evaluation checklist
 
 - [x] README.md
-- [ ] [mythril](https://github.com/ConsenSys/mythril) security audit
+- [x] [mythril](https://github.com/ConsenSys/mythril) security audit
 - [ ] Screen recording [!!]
 - [x] Truffle project - compile, migrate, test
 - [x] Commented project
 - [x] Library use
-- [ ] Local development interface
+- [x] Local development interface
     - [x] Displays the current ETH Account
     - [x] Can sign transactions using MetaMask
     - [x] App interface reflects contract state
@@ -252,13 +260,13 @@ Moloch DAO - https://github.com/MolochVentures/Whitepaper/blob/master/Whitepaper
 - [x] Circuit breaker/Emergency stop
 - [x] Project includes a file called design_pattern_desicions.md / at least 2 implemented
 - [x] avoiding_common_attacks.md and explains at least 3 attacks and how it mitigates
-- [ ] deployed_addresses.txt that indicates contract address on testnet
-- [ ] IPFS
-- [ ] upgradeable design pattern
-- [ ] One contract written in Vyper or LLL
-- [ ] uPort
-- [ ] ENS
-- [ ] Oracle
+- [x] deployed_addresses.txt that indicates contract address on testnet
+- [-] IPFS
+- [-] upgradeable design pattern
+- [-] One contract written in Vyper or LLL
+- [-] uPort
+- [½] ENS
+- [-] Oracle
 
 <!-- ## Not implemented future ideas
 

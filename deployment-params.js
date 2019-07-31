@@ -2,7 +2,7 @@
 
 // If you want to interact with the same contract and watch in ganache set its address here and set , after you did 'truffle migrate --reset'
 // If you want to deploy a new contract for each unit test set this to empty ("")
-module.exports.TRUFFLE_CONTRACT_ADDRESS = "0x3aFE97C775Aa571699aC31A56d1231BE3ff868BF"
+module.exports.TRUFFLE_CONTRACT_ADDRESS = "0x4Bd5120aB760E2CD656bF78D677D985931dA7AEA"
 
 module.exports.VOTING_PERIOD = 30 //2592000    // 1 month
 module.exports.RAGEQUIT_PERIOD = 30 //2592000  // 1 month
