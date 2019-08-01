@@ -66,6 +66,10 @@ Since only internal members are allowed to vote there is an exception designed t
 ### Proposals
 Anyone being a guild member can propose an `idea for research` or propose `application of a new member`. Both functions are handled by the same `submitProposa()` function. Every proposal need to include a `deposit` to prevent spamming, but after the proposal is processed and closed this amount is returned to the proposer.
 
+![alt text][img]
+
+[img]: img/ApplicationProposal.png "Application Proposal Flow"
+
 #### Application proposal
 Only an existing member can propose new joining applicants. This happens using the `submitProposal()` function also. The submitter needs to pass the applicant's address as well as the documentation of the joining members introduction and the shares he requests.
 
