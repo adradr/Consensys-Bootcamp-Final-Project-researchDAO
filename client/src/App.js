@@ -84,7 +84,7 @@ class App extends Component {
         { return key === 0 ?
             <tr key={key}><th>#</th><th>Address</th></tr>
             :
-            "No members"
+            ""
           }
       );
 
