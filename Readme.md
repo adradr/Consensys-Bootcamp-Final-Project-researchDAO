@@ -263,8 +263,9 @@ The contract interface is hosted on IPFS here:
 
 ## Screen recording
 
-The screen recording can be found [here on YouTube](https://youtu.be/hPPPqC44m74)
+The screen recording can be found [here on YouTube](https://youtu.be/m0CwC1rPrfs)
 
+>The error on the screen recording was caused by the voting period that was set to 15 seconds initially by the `deployment-params.js`, I redeployed with 60 seconds to have sufficient time to confirm and vote. In a production enviroment it should be 1 week - 1 month.
 
 ## Sources
 Moloch DAO - https://github.com/MolochVentures/Whitepaper/blob/master/Whitepaper.pdf
