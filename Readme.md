@@ -289,11 +289,11 @@ Moloch DAO - https://github.com/MolochVentures/Whitepaper/blob/master/Whitepaper
 - [x] avoiding_common_attacks.md and explains at least 3 attacks and how it mitigates
 - [x] deployed_addresses.txt that indicates contract address on testnet
 - [x] IPFS
-- [] upgradeable design pattern
-- [] One contract written in Vyper or LLL
-- [] uPort
-- [] ENS
-- [] Oracle
+- [ ] upgradeable design pattern
+- [ ] One contract written in Vyper or LLL
+- [ ] uPort
+- [ ] ENS
+- [ ] Oracle
 
 <!-- ## Not implemented future ideas
 
