@@ -263,7 +263,7 @@ The contract interface is hosted on IPFS here:
 
 ## Screen recording
 
-The screen recording can be found [here on YouTube](https://youtu.be/m0CwC1rPrfs)
+The screen recording can be found [here on YouTube](https://youtu.be/FQrGx1Hsga4)
 
 >The error on the screen recording was caused by the voting period that was set to 15 seconds initially by the `deployment-params.js`, I redeployed with 60 seconds to have sufficient time to confirm and vote. In a production enviroment it should be 1 week - 1 month.
 
