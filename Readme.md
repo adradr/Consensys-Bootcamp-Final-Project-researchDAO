@@ -261,7 +261,7 @@ The contract interface is hosted on IPFS here:
 [https://ipfs.io/ipfs/QmUoRnQPoVonDmfJZjb25ijSWwGXUdkBAPqjXYkvsFCEZ9/
 ](https://ipfs.io/ipfs/QmUoRnQPoVonDmfJZjb25ijSWwGXUdkBAPqjXYkvsFCEZ9/)
 
-## Screen recording
+## Screen recording
 
 The screen recording can be found [here on YouTube](https://youtu.be/hPPPqC44m74)
 
