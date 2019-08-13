@@ -6,8 +6,9 @@ before_script:
   - npm install -g ganache-cli
   - npm install -g truffle@5.0.4
   - npm install -g solc@0.5.0
+  - npm install -g dotenv
 
 script:
-  - ganache-cli &
+  - ganache-cli --port 7545 -a 3 -e 100
   - sleep 5
   - truffle test
