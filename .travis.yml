@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - "10"
+
+before_script:
+  - npm install -g ganache-cli
+  - npm install -g truffle@5.0.4
+  - npm install -g solc@0.5.0
+
+script:
+  - ganache-cli &
+  - sleep 5
+  - truffle test
