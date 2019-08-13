@@ -175,6 +175,9 @@ Contracts are stored in `contracts/` folder and the react interface is under `cl
 git clone https://github.com/adradr/Consensys-Bootcamp-Final-Project-researchDAO.git
 
 cd ConsenSys-Bootcamp-Final-Project-researchDAO
+
+npm install dotenv
+npm install truffle-hdwallet-provider
 ```
 ### 2. step - ganache
 
@@ -182,7 +185,7 @@ Run your development network with ganache-cli or open ganache GUI
 **ganache-cli**
 Run `ganache-cli` from command line:
 ```
-ganache-cli --port 7545 -a 3 -e 100
+ganache-cli --port 8545 -a 3 -e 100
 ```
 **ganache gui**
 Create a new workspace and set development port to `7545` or change it in `truffle-config.js`
