@@ -9,6 +9,7 @@ before_script:
 
 script:
   - npm install dotenv
+  - npm install truffle-hdwallet-provider
   - ganache-cli --port 7545 -a 3 -e 100 &
   - sleep 5
   - truffle test
